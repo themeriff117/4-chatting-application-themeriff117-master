@@ -2,16 +2,6 @@ const nameInput = document.getElementById("myName");
 const myMessage = document.getElementById("myMessage");
 const sendButton = document.getElementById("sendButton");
 const chatBox = document.getElementById("chat");
-/*
-function updateMessagesInChatBox() {
-        
-        fetchMessages(); 
-
-        What loop to use?
-        formatMessages();
-        updateChatBox();
-}
-*/
 
 const serverURL = `https://it3049c-chat-application.herokuapp.com/messages`;
 function fetchMessages() {
@@ -26,10 +16,15 @@ async function updateMessages() {
          // get each message
          // format it
          // add it to the chatbox
-    for (i = 0; i < messages.length; i++) {
-        formatMessage(messages[i]); //where you are in  array of json objects
+    /* for (i = 0; i < messages.length; i++) {
+        formatMessage(messages[i]); =where you are in array of json objects
 
-    }
+    } */
+    let formattedMessages = "";
+    messages.forEach(message => {
+        formattedMessages += formatMessage(message, nameInput.value);
+    });
+    chatBox.innerHTML = formattedMessages;
     
 }
 
@@ -64,20 +59,10 @@ function formatMessage(message, myName) {
 // ${} =this evaluates what's in the brackets and concatenates it into the string
 // ^ it's going to the json message object and retreiving the text property
 
-/* async function updateMessages() {
-    const messages = await fetchMessages();
-    
-    let formattedMessages = "";
-    messages.forEach(message => {
-        formattedMessages += formatMessage(message, nameInput.value);
-    });
-    chatBox.innerHTML = formattedMessages;
-} */
-
-updateMessages()
-setInterval(updateMessages, 10000);
+//updateMessages()
+//setInterval(updateMessages, 10000);
 const MILLISECONDS_IN_TEN_SECONDS = 10000;
-setInterval(updateMessages, MILLISECONDS_IN_TEN_SECONDS);
+setInterval(updateMessages, MILLISECONDS_IN_TEN_SECONDS); //every 10 sec, update messages
 
 function sendMessages (username, text) {
     const newMessage = {
@@ -86,7 +71,13 @@ function sendMessages (username, text) {
         timestamp: new Date()
     }
 
-    $.post(serverURL, newMessage);
+    fetch(serverURL, {
+        method: `POST`,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newMessage)
+    });
 }
 
 sendButton.addEventListener("click", function(sendButtonClickEvent) {
