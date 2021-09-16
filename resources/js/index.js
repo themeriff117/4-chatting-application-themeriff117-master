@@ -2,39 +2,35 @@ const nameInput = document.getElementById("myName");
 const myMessage = document.getElementById("myMessage");
 const sendButton = document.getElementById("sendButton");
 const chatBox = document.getElementById("chat");
-
+/*
 function updateMessagesInChatBox() {
-    // Fetch Messages
-     // Loop over the messages. Inside the loop we will
-         // get each message
-         // format it
-         // add it to the chatbox
-        fetchMessages(); //does this fetch messages from server?
+        
+        fetchMessages(); 
 
-        //What loop to use?
+        What loop to use?
         formatMessages();
         updateChatBox();
 }
+*/
 
 const serverURL = `https://it3049c-chat-application.herokuapp.com/messages`;
-
 function fetchMessages() {
     return fetch(serverURL).then( response => response.json())
 }
 
-async function updateMessages() { //Is this the same function/method as the first one??
+async function updateMessages() { 
      // Fetch Messages
     const messages = await fetchMessages();
-    /*
-    {
-     "id": 1,
-     "text": "This is my message",
-     "timestamp": 1537410673072
- } */
+    
      // Loop over the messages. Inside the loop we will
          // get each message
          // format it
          // add it to the chatbox
+    for (i = 0; i < messages.length; i++) {
+        formatMessage(messages[i]); //where you are in  array of json objects
+
+    }
+    
 }
 
 function formatMessage(message, myName) {
@@ -45,7 +41,7 @@ function formatMessage(message, myName) {
         return `
         <div class="mine messages">
             <div class="message">
-                ${message.text}
+                ${message.text} 
             </div>
             <div class="sender-info">
                 ${formattedTime}
@@ -65,20 +61,18 @@ function formatMessage(message, myName) {
         `
     }
 }
+// ${} =this evaluates what's in the brackets and concatenates it into the string
+// ^ it's going to the json message object and retreiving the text property
 
-async function updateMessages() {
-    // Fetch Messages
+/* async function updateMessages() {
     const messages = await fetchMessages();
-    // Loop over the messages. Inside the loop we will:
-        // get each message
-        // format it
-        // add it to the chatbox
+    
     let formattedMessages = "";
     messages.forEach(message => {
         formattedMessages += formatMessage(message, nameInput.value);
     });
     chatBox.innerHTML = formattedMessages;
-}
+} */
 
 updateMessages()
 setInterval(updateMessages, 10000);
