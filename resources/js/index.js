@@ -2,6 +2,7 @@ const nameInput = document.getElementById("myName");
 const myMessage = document.getElementById("myMessage");
 const sendButton = document.getElementById("sendButton");
 const chatBox = document.getElementById("chat");
+const refreshButton = document.getElementById("refresh");
 
 const serverURL = `https://it3049c-chat-application.herokuapp.com/messages`;
 function fetchMessages() {
@@ -88,4 +89,6 @@ sendButton.addEventListener("click", function(sendButtonClickEvent) {
     sendMessages(sender,message);
     myMessage.value = "";
 });
+
+refreshButton.addEventListener("click", updateMessages);
 
